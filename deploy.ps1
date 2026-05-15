@@ -1,12 +1,12 @@
-# deploy.ps1 - Pujar EcoTrack a GitHub Pages
-$ecotrackPath = "C:\laragon\www\fp-ginebro\ecotrack"
-$repoUrl      = "https://github.com/marcsacris/08_PracticaFinal_ResumConceptes.git"
-$baseHref     = "/08_PracticaFinal_ResumConceptes/"
+# deploy.ps1 - Pujar 08_PracticaFinal_ResumConceptes a GitHub Pages
+$projectPath = "C:\Users\Marc\Documents\IVAN\08_PracticaFinal_ResumConceptes"
+$repoUrl     = "https://github.com/marcsacris/08_PracticaFinal_ResumConceptes.git"
+$baseHref    = "/08_PracticaFinal_ResumConceptes/"
 
-Write-Host "--- Entrant a la carpeta ecotrack ---" -ForegroundColor Cyan
-Set-Location $ecotrackPath
+Write-Host "--- Entrant a la carpeta del projecte ---" -ForegroundColor Cyan
+Set-Location $projectPath
 
-Write-Host "--- Build Angular (producció) ---" -ForegroundColor Cyan
+Write-Host "--- Build Angular (producció, mode CSR) ---" -ForegroundColor Cyan
 ng build --base-href $baseHref
 
 if ($LASTEXITCODE -ne 0) {
@@ -14,19 +14,14 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 
-Write-Host "--- Configurant git remote ---" -ForegroundColor Cyan
-git init
-git remote remove origin 2>$null
-git remote add origin $repoUrl
-
 Write-Host "--- Commit del codi font a main ---" -ForegroundColor Cyan
 git add .
-git commit -m "feat: EcoTrack PWA - Angular + Capacitor"
+git commit -m "feat: deploy EcoTrack resumen conceptes"
 git branch -M main
 git push origin main --force
 
 Write-Host "--- Deploy gh-pages ---" -ForegroundColor Cyan
-npx angular-cli-ghpages --dir=dist/ecotrack/browser
+npx angular-cli-ghpages --dir=dist/browser
 
 Write-Host ""
 Write-Host "✅ Fet! App disponible a:" -ForegroundColor Green
